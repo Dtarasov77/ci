@@ -1,0 +1,46 @@
+---
+- name: My firt playbook
+  hosts: all
+  become: yes
+
+  vars:
+    source_dest: /var/www/html
+    source_file: /home/dima/myweb/ci/index.html 
+
+  tasks:
+    - name: Check connect to my server
+      ping:
+
+    - name: Print OS
+      debug: var=ansible_os_family
+
+    - name: Blocks for Debian
+      block: 
+        - name: install apache2
+          apt: name=apache2 update_cache=yes state=latest
+        
+        - name: enable mod_rewrite
+          apache2_module: name=rewrite state=present
+          notify:
+            - restart apache for Ubuntu
+          
+        - name: apache2 listen on port 8081
+          lineinfile: dest=/etc/apache2/ports.conf regexp="^Listen 80" line="Listen 8081" state=present
+          notify:
+            - restart apache for Ubuntu
+
+        - name: apache2 virtualhost on port 8081
+          lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp="^<VirtualHost \*:80>" line="<VirtualHost *:8081>" state=present
+          notify:
+            - restart apache for Ubuntu
+        
+        - name: Copy new index for server
+          copy: src={{ source_file }} dest={{ source_dest }}/index.html mode=0555
+          notify:
+            - restart apache for Ubuntu
+
+      when: ansible_os_family == "Debian"
+
+  handlers:
+    - name: restart apache for Ubuntu
+      service: name=apache2 state=restarted
