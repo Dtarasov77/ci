@@ -5,7 +5,7 @@
 
   vars:
     source_dest: /var/www/html
-    source_file: /home/dima/myweb/ci/innnndex.html 
+    source_file: /home/dima/myweb/ci/index.html 
 
   tasks:
     - name: Check connect to my server
