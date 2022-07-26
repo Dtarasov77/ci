@@ -1,0 +1,15 @@
+---
+- name: install git
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Check connect to servers
+    ping: 
+
+  - name: This Block for Ubuntu
+    block:
+      - name: Install git
+        apt: name=git state=present update_cache=yes
+    when: ansible_os_family == "Debian"
+
