@@ -24,15 +24,15 @@
           notify:
             - restart apache for Ubuntu
           
-        - name: apache2 listen on port 8081
-          lineinfile: dest=/etc/apache2/ports.conf regexp="^Listen 80" line="Listen 8081" state=present
-          notify:
-            - restart apache for Ubuntu
+#        - name: apache2 listen on port 80
+#          lineinfile: dest=/etc/apache2/ports.conf regexp="^Listen 8081" line="Listen 80" state=present
+#          notify:
+#            - restart apache for Ubuntu
 
-        - name: apache2 virtualhost on port 8081
-          lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp="^<VirtualHost \*:80>" line="<VirtualHost *:8081>" state=present
-          notify:
-            - restart apache for Ubuntu
+#        - name: apache2 virtualhost on port 80
+#          lineinfile: dest=/etc/apache2/sites-available/000-default.conf regexp="^<VirtualHost \*:8081>" line="<VirtualHost *:80>" state=present
+#          notify:
+#            - restart apache for Ubuntu
         
         - name: Copy new index for server
           copy: src={{ source_file }} dest={{ source_dest }}/index.html mode=0555
@@ -44,3 +44,4 @@
   handlers:
     - name: restart apache for Ubuntu
       service: name=apache2 state=restarted
+

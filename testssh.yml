@@ -1,0 +1,15 @@
+---
+- name: install git
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Check connect to servers
+    ping: 
+
+#  - name: This Block for Ubuntu
+#    block:
+#      - name: Generate ssh-key
+#        shell: name=ssh-keygen 
+#    when: ansible_os_family == "Debian"
+

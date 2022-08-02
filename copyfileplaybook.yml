@@ -1,0 +1,13 @@
+---
+- name: Copy my file
+  hosts: all
+  become: yes
+
+  vars:
+    sourcee_file: /home/dima/myweb/ci/docker/Dockerfile
+    sourcee_dest: /home/files/
+
+  tasks:
+
+  - name: Copy
+    copy: src={{ sourcee_file }} dest={{ sourcee_dest }} mode=0555

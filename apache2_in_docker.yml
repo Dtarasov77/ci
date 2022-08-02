@@ -1,0 +1,23 @@
+---
+- name: This job for start apache2 with index.html on docker
+  hosts: all
+  become: yes
+
+  vars:
+    source_file1: /home/dima/myweb/ci/index.html
+    source_file2: /home/dima/myweb/ci/Dockerfile
+    source_dest: /home/docker
+
+  tasks:
+    - name: Copy index.html
+      copy: src={{ source_file1 }} dest={{ source_dest }}/index.html mode=0555
+   
+    - name: Copy Docerfile
+      copy: src={{ source_file2 }} dest={{ source_dest }}/Dockerfile mode=0555
+#      notify: restart build docker
+
+    - name: Build dockerfile
+      shell: "docker build -t apache2_test {{ source_dest }}"
+
+    - name: start docker
+      shell: "docker run -d -p 80:80 apache2_test "
