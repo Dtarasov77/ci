@@ -1,0 +1,16 @@
+---
+- name: This job for start apache2 with index.html on docker
+  hosts: all
+  become: yes
+
+/home/dima/myweb/ci/index.html  vars:
+    source_file: /home/dima/myweb/ci/index.htmlhome/dima/myweb/ci/index.html
+#    source_file2: home/dima/myweb/ci/Dockerfile
+    source_dest: /home/docker
+
+  tasks:
+  - name: Copy anythink files
+    copy: src={{ source_file }} dest={{ source_dest }}/index.html mode=0555
+#      copy: src={{ source_file2 }} dest={{ source_dest }} mode=0555
+#      notify: restart build docker
+

@@ -16,8 +16,12 @@
       copy: src={{ source_file2 }} dest={{ source_dest }}/Dockerfile mode=0555
 #      notify: restart build docker
 
+
     - name: Build dockerfile
       shell: "docker build -t apache2_test {{ source_dest }}"
+      register: dockerf
+      
 
     - name: start docker
-      shell: "docker run -d -p 80:80 apache2_test "
+      shell: "docker run -d -p 80:80 apache2_test"
+      
