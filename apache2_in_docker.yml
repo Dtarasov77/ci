@@ -14,15 +14,13 @@
    
     - name: Copy Docerfile
       copy: src={{ source_file2 }} dest={{ source_dest }}/Dockerfile mode=0555
-#      notify: restart build docker
-
 
     - name: Build dockerfile
-      shell: "docker build -t apache2_test {{ source_dest }}"
+      shell: "docker build -t apache {{ source_dest }}"
       
     - name: delete old docker
       shell: "docker rm -f apache2 || true"
 
     - name: start docker
-      shell: "docker run -d -p 80:80 --name apache2  apache2_test"
+      shell: "docker run -d -p 80:80 --name apache2  apache"
       
