@@ -19,9 +19,10 @@
 
     - name: Build dockerfile
       shell: "docker build -t apache2_test {{ source_dest }}"
-      register: dockerf
       
+    - name: delete old docker
+      shell: "docker rm -f apache2 || true"
 
     - name: start docker
-      shell: "docker run -d -p 80:80 apache2_test"
+      shell: "docker run -d -p 80:80 --name apache2  apache2_test"
       
